@@ -1,0 +1,125 @@
+﻿<Window
+    x:Class="Lib.Windows.SettingCompany"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Lib.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Список издательств"
+    Width="500"
+    Height="350"
+    MinWidth="500"
+    MinHeight="350"
+    MaxHeight="350"
+    ResizeMode="NoResize"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" MinWidth="150" />
+            <ColumnDefinition Width="3*" MinWidth="300" />
+            <ColumnDefinition Width="auto" MinWidth="30" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel x:Name="stackP" Grid.Column="0">
+            <TextBox
+                IsReadOnly="False"
+                Style="{StaticResource TxtToSearch}"
+                Text="{Binding FilterCompany, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ListBox
+                Name="lstCompanies"
+                MinHeight="280"
+                ItemsSource="{Binding FilteredCompanies}"
+                SelectedItem="{Binding SelectedCompany}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Stretch">
+                            <Run Text="{Binding Name}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel
+            Name="sltCompany"
+            Grid.Column="1"
+            DataContext="{Binding SelectedItem, ElementName=lstCompanies}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                Text="Информация об издательстве" />
+            <TextBlock Text="Название:" />
+            <TextBox
+                Margin="2"
+                IsReadOnly="False"
+                Text="{Binding Path=Name}" />
+            <TextBlock Text="Адрес:" />
+            <TextBox
+                Margin="2"
+                IsReadOnly="False"
+                Text="{Binding Path=Address}" />
+            <TextBlock Text="Номер телефона:" />
+            <TextBox
+                Margin="2"
+                IsReadOnly="False"
+                Text="{Binding Path=PhoneNumber}" />
+            <TextBlock Text="Почта:" />
+            <TextBox
+                Margin="2"
+                IsReadOnly="False"
+                Text="{Binding Path=Mail}" />
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    Command="{Binding ElementName=lstCompanies, Path=DataContext.DeleteCompanyCommand}"
+                    CommandParameter="{Binding ElementName=lstCompanies, Path=SelectedItem}"
+                    Content="Удалить" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+            <Expander VerticalAlignment="Center" ExpandDirection="Right">
+                <StackPanel
+                    Name="newCompany"
+                    Grid.Column="1"
+                    Width="200"
+                    Height="300"
+                    DataContext="{Binding NewCompany}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Информация об издательстве" />
+                    <TextBlock Text="Название:" />
+                    <TextBox
+                        Margin="2"
+                        IsReadOnly="False"
+                        Text="{Binding Path=Name}" />
+                    <TextBlock Text="Адрес:" />
+                    <TextBox
+                        Margin="2"
+                        IsReadOnly="False"
+                        Text="{Binding Path=Address}" />
+                    <TextBlock Text="Номер телефона:" />
+                    <TextBox
+                        Margin="2"
+                        IsReadOnly="False"
+                        Text="{Binding Path=PhoneNumber}" />
+                    <TextBlock Text="Почта:" />
+                    <TextBox
+                        Margin="2"
+                        IsReadOnly="False"
+                        Text="{Binding Path=Mail}" />
+                    <Button
+                        Command="{Binding ElementName=lstCompanies, Path=DataContext.AddCompanyCommand}"
+                        CommandParameter="{Binding ElementName=lstCompanies, Path=SelectedItem}"
+                        Content="Добавить" />
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </Grid>
+</Window>

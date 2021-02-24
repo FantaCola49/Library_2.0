@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="mainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Authors">
+    <Key>
+      <PropertyRef Name="ID_Author" />
+    </Key>
+    <Property Name="ID_Author" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Patronymic" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="Nickname" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Self.AuthorBooks" FromRole="Authors" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="ID_Book" />
+    </Key>
+    <Property Name="ID_Book" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ID_Company" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="Year" Type="DateTime" />
+    <Property Name="ISBN" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="ID_Genre" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Genres" Relationship="Self.FK_Books_0_0" FromRole="Books" ToRole="Genres" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_Books_1_0" FromRole="Books" ToRole="Company" />
+    <NavigationProperty Name="Authors" Relationship="Self.AuthorBooks" FromRole="Books" ToRole="Authors" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="ID_Company" />
+    </Key>
+    <Property Name="ID_Company" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="Mail" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Books" Relationship="Self.FK_Books_1_0" FromRole="Company" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="Genres">
+    <Key>
+      <PropertyRef Name="ID_Genre" />
+    </Key>
+    <Property Name="ID_Genre" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Self.FK_Books_0_0" FromRole="Genres" ToRole="Books" />
+  </EntityType>
+  <Association Name="FK_Books_0_0">
+    <End Role="Genres" Type="Self.Genres" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genres">
+        <PropertyRef Name="ID_Genre" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="ID_Genre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Books_1_0">
+    <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="ID_Company" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="ID_Company" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AuthorBooks">
+    <End Role="Books" Type="Self.Books" Multiplicity="*" />
+    <End Role="Authors" Type="Self.Authors" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="mainEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authors" EntityType="Self.Authors" />
+    <EntitySet Name="Books" EntityType="Self.Books" />
+    <EntitySet Name="Company" EntityType="Self.Company" />
+    <EntitySet Name="Genres" EntityType="Self.Genres" />
+    <AssociationSet Name="FK_Books_0_0" Association="Self.FK_Books_0_0">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Books_1_0" Association="Self.FK_Books_1_0">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="AuthorBooks" Association="Self.AuthorBooks">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="Authors" EntitySet="Authors" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

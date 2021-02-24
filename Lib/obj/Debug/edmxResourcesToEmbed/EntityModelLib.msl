@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище mainModelContainer" CdmEntityContainer="mainEntities">
+    <EntitySetMapping Name="Authors">
+      <EntityTypeMapping TypeName="mainModel.Authors">
+        <MappingFragment StoreEntitySet="Authors">
+          <ScalarProperty Name="ID_Author" ColumnName="ID_Author" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Books">
+      <EntityTypeMapping TypeName="mainModel.Books">
+        <MappingFragment StoreEntitySet="Books">
+          <ScalarProperty Name="ID_Book" ColumnName="ID_Book" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID_Company" ColumnName="ID_Company" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ID_Genre" ColumnName="ID_Genre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Company">
+      <EntityTypeMapping TypeName="mainModel.Company">
+        <MappingFragment StoreEntitySet="Company">
+          <ScalarProperty Name="ID_Company" ColumnName="ID_Company" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Genres">
+      <EntityTypeMapping TypeName="mainModel.Genres">
+        <MappingFragment StoreEntitySet="Genres">
+          <ScalarProperty Name="ID_Genre" ColumnName="ID_Genre" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AuthorBooks" TypeName="mainModel.AuthorBooks" StoreEntitySet="AuthorBooks">
+      <EndProperty Name="Books">
+        <ScalarProperty Name="ID_Book" ColumnName="ID_Book" />
+      </EndProperty>
+      <EndProperty Name="Authors">
+        <ScalarProperty Name="ID_Author" ColumnName="ID_Author" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

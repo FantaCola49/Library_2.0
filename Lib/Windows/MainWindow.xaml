@@ -1,0 +1,156 @@
+﻿<Window
+    x:Class="Lib.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Lib.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Библиотека 2.0"
+    Width="828"
+    Height="570"
+    MinWidth="828"
+    MinHeight="570"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+
+    <Grid x:Name="CommonGrid">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="4*" MinWidth="250" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="24" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Menu
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Margin="3"
+            Background="White">
+            <MenuItem Header="Файл">
+                <MenuItem Command="{Binding ExitCommand}" Header="Выход" />
+            </MenuItem>
+            <MenuItem Header="Дополнительные окна">
+                <MenuItem Command="{Binding SettingCompaniesCommand}" Header="Компании" />
+                <MenuItem Command="{Binding SettingGenresCommand}" Header="Жанры" />
+            </MenuItem>
+            <MenuItem Command="{Binding GetInfoAboutApp}" Header="Справка" />
+        </Menu>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel x:Name="stackP" Grid.Column="0">
+                <TextBox Style="{StaticResource TxtToSearch}" Text="{Binding FilterAuthors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button Command="{Binding AddAuthorCommand}" Style="{StaticResource ResourceKey=btnPlusPic}">
+                    <Image Source="/Resources/plus1.png" />
+                </Button>
+
+                <ListBox
+                    Name="lstAuthors"
+                    ItemsSource="{Binding FilteredAuthors}"
+                    SelectedItem="{Binding Path=SelectedAuthor, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Stretch">
+                                <Run Text="{Binding Surname}" />
+                                <Run Text="{Binding Name, Converter={StaticResource StringToProperties}}" />
+                                <Run Text="{Binding Patronymic, Converter={StaticResource StringToProperties}}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <TextBox Style="{StaticResource TxtToSearch}" Text="{Binding FilterBooks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Command="{Binding AddBookCommand}" Style="{StaticResource ResourceKey=btnPlusPic}">
+                    <Image Source="/Resources/plus1.png" />
+                </Button>
+                <ListBox
+                    Name="lstBooks"
+                    ItemsSource="{Binding FilteredBooks}"
+                    SelectedItem="{Binding SelectedBook}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="0.8*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Name="sltAuthor"
+                Grid.Row="0"
+                DataContext="{Binding SelectedItem, ElementName=lstAuthors}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="Информация об авторе" />
+                <TextBlock Text="Фамилия:" />
+                <TextBox Margin="2" Text="{Binding Path=Surname}" />
+                <TextBlock Text="Имя:" />
+                <TextBox Margin="2" Text="{Binding Path=Name}" />
+                <TextBlock Text="Отчество:" />
+                <TextBox Margin="2" Text="{Binding Path=Patronymic}" />
+                <TextBlock Text="Псевдоним:" />
+                <TextBox Margin="2" Text="{Binding Path=Nickname}" />
+
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button
+                        Command="{Binding ElementName=lstAuthors, Path=DataContext.EditAuthorCommand}"
+                        CommandParameter="{Binding Path=DataContext, ElementName=sltAuthor}"
+                        Content="Изменить" />
+                    <Button
+                        Command="{Binding ElementName=lstAuthors, Path=DataContext.DeleteAuthorCommand}"
+                        CommandParameter="{Binding ElementName=lstAuthors, Path=SelectedItem}"
+                        Content="Удалить" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel
+                Name="sltBook"
+                Grid.Row="1"
+                DataContext="{Binding SelectedItem, ElementName=lstBooks}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="Информация о книге" />
+                <TextBlock Text="Название:" />
+                <TextBox Margin="2" Text="{Binding Path=Name}" />
+                <TextBlock Text="Жанр:" />
+                <TextBox Margin="2" Text="{Binding Path=DataContext, ElementName=sltBook, Mode=TwoWay, Converter={StaticResource FormatJanre}}" />
+                <TextBlock Text="ISBN:" />
+                <TextBox Margin="2" Text="{Binding Path=ISBN}" />
+
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button
+                        Command="{Binding ElementName=lstAuthors, Path=DataContext.EditBookCommand}"
+                        CommandParameter="{Binding Path=DataContext, ElementName=sltBook}"
+                        Content="Изменить" />
+                    <Button
+                        Command="{Binding ElementName=lstAuthors, Path=DataContext.DeleteBookCommand}"
+                        CommandParameter="{Binding ElementName=lstBooks, Path=SelectedItem}"
+                        Content="Удалить" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

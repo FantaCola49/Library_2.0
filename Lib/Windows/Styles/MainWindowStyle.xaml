@@ -1,0 +1,75 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Lib.Converters">
+
+    <local:StringToProperties x:Key="StringToProperties" />
+    <local:DownHeight x:Key="DownHeight" />
+    <local:FormatJanre x:Key="FormatJanre" />
+
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Margin" Value="5,1,1,3" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <Style x:Key="TxtToSearch" TargetType="TextBox">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="IsReadOnly" Value="False" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="Margin" Value="8" />
+        <Setter Property="MinWidth" Value="75" />
+        <Setter Property="MinHeight" Value="30" />
+    </Style>
+
+    <Style TargetType="StackPanel">
+        <Setter Property="Margin" Value="3,5,5,5" />
+    </Style>
+
+    <Style x:Key="btnPlusPic" TargetType="Button">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Margin" Value="1,4,1,1" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+
+
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect
+                            BlurRadius="5"
+                            Direction="320"
+                            Opacity="0.5"
+                            ShadowDepth="3"
+                            Color="LightGreen" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="ListBox">
+        <Setter Property="MaxHeight" Value="{Binding ElementName=CommonGrid, Path=ActualHeight, Converter={StaticResource DownHeight}}" />
+        <Setter Property="MinHeight" Value="{Binding ElementName=CommonGrid, Path=ActualHeight, Converter={StaticResource DownHeight}}" />
+        <Setter Property="Margin" Value="0,3,0,0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible" />
+    </Style>
+
+    <Style TargetType="ListBoxItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+</ResourceDictionary>

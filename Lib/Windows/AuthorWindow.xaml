@@ -1,0 +1,91 @@
+﻿<Window
+    x:Class="Lib.Windows.AuthorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Lib.ViewModel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{Binding Title}"
+    Width="512.501"
+    Height="361.667"
+    MinWidth="320"
+    MinHeight="250"
+    MaxHeight="400"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,1,1,3" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="25" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="IsReadOnly" Value="False" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="MaxWidth" Value="80" />
+            <Setter Property="MaxHeight" Value="30" />
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="20" />
+            <RowDefinition MinHeight="20" />
+            <RowDefinition MinHeight="20" />
+            <RowDefinition MinHeight="20" />
+            <RowDefinition MinHeight="20" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Фамилия:" />
+        <TextBlock Grid.Row="1" Text="Имя:" />
+        <TextBlock Grid.Row="2" Text="Отчество:" />
+        <TextBlock Grid.Row="3" Text="Псевдоним:" />
+
+        <TextBox Grid.Column="1" Text="{Binding Author.Surname}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding Author.Name}" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Text="{Binding Author.Patronymic}" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Text="{Binding Author.Nickname}" />
+
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Margin="5"
+                Command="{Binding AcceptCommand}"
+                CommandParameter="{Binding Author}">
+                OK
+            </Button>
+            <Button
+                Margin="5"
+                Command="{Binding ExitCommand}"
+                IsCancel="True">
+                Отмена
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

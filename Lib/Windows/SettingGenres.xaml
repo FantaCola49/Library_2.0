@@ -1,0 +1,103 @@
+﻿<Window
+    x:Class="Lib.Windows.SettingGenres"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Lib.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Жанры"
+    Width="500"
+    Height="350"
+    MinWidth="500"
+    MinHeight="350"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary Source="Styles/MainWindowStyle.xaml" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" MinHeight="100" />
+            <RowDefinition Height="1*" MinHeight="100" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            x:Name="stackP"
+            Grid.Row="0"
+            MinHeight="2">
+            <TextBox
+                IsReadOnly="False"
+                Style="{StaticResource TxtToSearch}"
+                Text="{Binding FilterGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ListBox
+                Name="lstGenres"
+                MinHeight="100"
+                MaxWidth="483"
+                ItemsSource="{Binding FilteredGenres}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                SelectedItem="{Binding SelectedGenre}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock MaxHeight="25" HorizontalAlignment="Stretch">
+                            <Run Text="{Binding Name}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel
+            Name="sltGenre"
+            Grid.Row="1"
+            DataContext="{Binding SelectedItem, ElementName=lstGenres}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                Text="Жанр" />
+            <TextBlock Text="Название:" />
+            <TextBox
+                Margin="2"
+                IsReadOnly="False"
+                Text="{Binding Path=Name}" />
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    Command="{Binding ElementName=lstGenres, Path=DataContext.DeleteGenreCommand}"
+                    CommandParameter="{Binding ElementName=lstGenres, Path=SelectedItem}"
+                    Content="Удалить" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <Expander VerticalAlignment="Center" ExpandDirection="Down">
+                <StackPanel
+                    Name="newGenre"
+                    Grid.Column="1"
+                    Height="120"
+                    DataContext="{Binding NewGenre}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="Новый жанр" />
+                    <TextBlock Text="Название:" />
+                    <TextBox
+                        Margin="2"
+                        IsReadOnly="False"
+                        Text="{Binding Path=Name}" />
+                    <Button
+                        Command="{Binding ElementName=lstGenres, Path=DataContext.AddGenreCommand}"
+                        CommandParameter="{Binding ElementName=lstGenres, Path=SelectedItem}"
+                        Content="Добавить" />
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </Grid>
+</Window>
